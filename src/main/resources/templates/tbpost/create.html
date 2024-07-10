@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page1</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+
+제목
+<input type="text" id="tbpost_title" />
+내용
+<input type="text" id="tbpost_content" />
+<button onclick="create_tbpost()">글 작성</button>
+
+<script>
+    function create_tbpost(){
+        $.ajax({
+            url: "/api/tbpost/create",
+            type: "GET",
+            contentType : 'application/json; charset=utf-8',
+            data: {
+                title : $("#tbpost_title").val()
+                ,content : $("#tbpost_content").val()
+            },
+            cache: false,
+            success: (data, status, xhr)=>{
+                //alert("success!!");
+                alert(JSON.stringify(data));
+            },
+            error: (data, status, xhr)=>{
+                alert("error!!");
+                alert(JSON.stringify(data));
+            },
+        });
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page1</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+page1 입니다!!
+<div>하핳</div>
+<a href="/index">인덱스로 이동!</a>
+
+<div id="div_1">hahaha!</div>
+<input type="number" id="input_add1" />
+<input type="number" id="input_add2" />
+<button onclick="fnTest()">이동 테스트!</button>
+
+<script>
+    alert(111);
+    alert($("#div_1").html());
+
+    function fnTest(){
+        $.ajax({
+            url: "/api/addTest",
+            type: "GET",
+            contentType : 'application/json; charset=utf-8',
+            data: {
+                add1 : $("#input_add1").val()
+                ,add2 : $("#input_add2").val()
+            },
+            cache: false,
+            success: (data, status, xhr)=>{
+                //alert("success!!");
+                alert(JSON.stringify(data));
+            },
+            error: (data, status, xhr)=>{
+                alert("error!!");
+                alert(JSON.stringify(data));
+            },
+        });
+    }
+</script>
+
+</body>
+</html>

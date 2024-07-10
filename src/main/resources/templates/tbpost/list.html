@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page1</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+<div>목록!!</div>
+<div id="div_tbpost_list"></div>
+
+
+<button onclick="list_tbpost()">글 불러오기</button>
+
+<script>
+    function list_tbpost(){
+        $.ajax({
+            url: "/api/tbpost/list",
+            type: "GET",
+            contentType : 'application/json; charset=utf-8',
+            data: {},
+            cache: false,
+            success: (data, status, xhr)=>{
+                let alist = data.data;
+                for(each of alist){
+                    $("#div_tbpost_list").append(
+                        "<div>"+each.order + "//"+each.title + "//"+each.content + "//"+"</div>"
+                    );
+                }
+            },
+            error: (data, status, xhr)=>{
+                alert("error!!");
+                alert(JSON.stringify(data));
+            },
+        });
+    }
+</script>
+
+</body>
+</html>
