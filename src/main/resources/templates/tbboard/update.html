@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page1</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+
+
+
+순번
+<input type="text" id="tbboard_order" />
+<button onclick="detail_tbboard()">글 불러오기</button>
+
+제목
+<input type="text" id="tbboard_title" />
+내용
+<input type="text" id="tbboard_content" />
+작성자
+<input type="text" id="tbboard_writer" />
+<button onclick="update_tbboard()">글 수정</button>
+
+<script>
+    function detail_tbboard(){
+        $.ajax({
+            url: "/api/tbboard/detail/" + $("#tbboard_order").val(),
+            type: "GET",
+            contentType : 'application/json; charset=utf-8',
+            data: {},
+            cache: false,
+            success: (data, status, xhr)=>{
+                //alert("success!!");
+                let tbboard = data.data;
+                alert(JSON.stringify(data));
+                $("#tbboard_title").val(tbboard.title);
+                $("#tbboard_content").val(tbboard.content);
+                $("#tbboard_writer").val(tbboard.writer);
+            },
+            error: (data, status, xhr)=>{
+                alert("error!!");
+                alert(JSON.stringify(data));
+            },
+        });
+    }
+
+
+
+    function update_tbboard(){
+        $.ajax({
+            url: "/api/tbboard/update",
+            type: "GET",
+            contentType : 'application/json; charset=utf-8',
+            data: {
+                order : $("#tbboard_order").val(),
+                title : $("#tbboard_title").val()
+            },
+            cache: false,
+            success: (data, status, xhr)=>{
+                //alert("success!!");
+                alert(JSON.stringify(data));
+            },
+            error: (data, status, xhr)=>{
+                alert("error!!");
+                alert(JSON.stringify(data));
+            },
+        });
+    }
+</script>
+
+</body>
+</html>
