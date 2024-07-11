@@ -14,5 +14,10 @@ public class TbpostPageController {
     public String page(@PathVariable("page") String page){
         return "tbpost/" + page;
     }
+    //2024-07-11
+    @GetMapping("/detail/{id}")
+    public String detail(@PathVariable("id") String id){
+        return "tbpost/detail";
+    }
 
 }

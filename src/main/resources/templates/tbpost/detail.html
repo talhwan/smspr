@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page1</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+
+조회!!<br/>
+아이디
+<input type="text" id="tbpost_id" />
+제목
+<input type="text" id="tbpost_title" />
+내용
+<input type="text" id="tbpost_content" />
+<button onclick="detail_tbpost()">글 조회</button>
+<button onclick="update_tbpost()">글 수정</button>
+<button onclick="delete_tbpost()">글 삭제</button>
+
+<script>
+    function detail_tbpost(){
+        $.ajax({
+            url: "/api/tbpost/detail",
+            type: "GET",
+            contentType : 'application/json; charset=utf-8',
+            data: {
+                id : $("#tbpost_id").val()
+            },
+            cache: false,
+            success: (data, status, xhr)=>{
+                //alert("success!!");
+                alert(JSON.stringify(data));
+                let obj_detail = data.resultData;
+                $("#tbpost_title").val(obj_detail.title);
+                $("#tbpost_content").val(obj_detail.content);
+            },
+            error: (data, status, xhr)=>{
+                alert("error!!");
+                alert(JSON.stringify(data));
+            },
+        });
+    }
+    function update_tbpost(){
+        $.ajax({
+            url: "/api/tbpost/update",
+            type: "GET",
+            contentType : 'application/json; charset=utf-8',
+            data: {
+                id : $("#tbpost_id").val(),
+                title : $("#tbpost_title").val(),
+                content : $("#tbpost_content").val()
+            },
+            cache: false,
+            success: (data, status, xhr)=>{
+                //alert("success!!");
+                alert(JSON.stringify(data));
+            },
+            error: (data, status, xhr)=>{
+                alert("error!!");
+                alert(JSON.stringify(data));
+            },
+        });
+    }
+    function delete_tbpost(){
+        $.ajax({
+            url: "/api/tbpost/delete",
+            type: "GET",
+            contentType : 'application/json; charset=utf-8',
+            data: {
+                id : $("#tbpost_id").val()
+            },
+            cache: false,
+            success: (data, status, xhr)=>{
+                //alert("success!!");
+                alert(JSON.stringify(data));
+            },
+            error: (data, status, xhr)=>{
+                alert("error!!");
+                alert(JSON.stringify(data));
+            },
+        });
+    }
+</script>
+
+</body>
+</html>

@@ -22,10 +22,12 @@
             data: {},
             cache: false,
             success: (data, status, xhr)=>{
-                let alist = data.data;
+                alert(JSON.stringify(data));
+
+                let alist = data.resultData;
                 for(each of alist){
                     $("#div_tbpost_list").append(
-                        "<div>"+each.order + "//"+each.title + "//"+each.content + "//"+"</div>"
+                        "<div><a href='/tbpost/detail/"+each.id+"'>"+each.id + "//"+each.title + "//"+each.content + "//"+"</a></div>"
                     );
                 }
             },
