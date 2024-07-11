@@ -1,5 +1,10 @@
 package com.thc.smspr.controller;
 
+import com.thc.smspr.domain.Tbboard;
+import com.thc.smspr.domain.Tbpost;
+import com.thc.smspr.repository.TbboardRepository;
+import org.hibernate.service.spi.InjectService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -12,6 +17,13 @@ import java.util.Map;
 public class TbboardRestController {
 
     List<Map<String, Object>> tbboardList = new ArrayList<>();
+
+    TbboardRepository tbboardRepository;
+    public TbboardRestController(
+            TbboardRepository tbboardRepository
+    ){
+        this.tbboardRepository = tbboardRepository;
+    }
 
     @GetMapping("/create")
     public Map<String, Object> create(
@@ -26,7 +38,9 @@ public class TbboardRestController {
         tbboard.put("content", content);
         tbboard.put("writer", writer);
 
-        tbboardList.add(tbboard);
+        //tbboardList.add(tbboard);
+        Tbboard tbboard1 = Tbboard.of(title, content, writer);
+        tbboardRepository.save(tbboard1);
 
         returnVal.put("resultCode", 200);
         returnVal.put("order", tbboardList.size());
@@ -37,49 +51,55 @@ public class TbboardRestController {
         Map<String, Object> returnVal = new HashMap<>();
 
         returnVal.put("resultCode", 200);
-        returnVal.put("data", tbboardList);
+        returnVal.put("data", tbboardRepository.findAll());
+        //returnVal.put("data", tbboardList);
         return returnVal;
     }
-    @GetMapping("/detail/{order}")
-    public Map<String, Object> detail(@PathVariable String order){
+    @GetMapping("/detail/{id}")
+    public Map<String, Object> detail(@PathVariable String id){
         Map<String, Object> returnVal = new HashMap<>();
         int resultCode = 0;
-        int intOrder = 0;
-        try{
-            intOrder = Integer.parseInt(order);
-            if(intOrder <= tbboardList.size() || intOrder > 0){
-                returnVal.put("data", tbboardList.get(intOrder - 1));
-                resultCode = 200;
-            } else {
-                resultCode = -2;
-            }
-        } catch (Exception e){
-            resultCode = -1;
-        }
         returnVal.put("resultCode", resultCode);
-        //returnVal.put("data", tbboardList);
+
+        Tbboard tbboard = tbboardRepository.findById(id).orElseThrow(() -> new RuntimeException(""));
+
+        returnVal.put("data", tbboard);
         return returnVal;
     }
     @GetMapping("/update")
     public Map<String, Object> update(@RequestParam Map<String, Object> params){
         Map<String, Object> returnVal = new HashMap<>();
-        String order = (String) params.get("order");
+        String id = (String) params.get("id");
         int resultCode = 0;
-        int intOrder = 0;
-        try{
-            intOrder = Integer.parseInt(order);
-            if(intOrder <= tbboardList.size() || intOrder > 0){
-                Map<String, Object> each = tbboardList.get(intOrder - 1);
-                if(params.get("title") != null && !"".equals(params.get("title"))){
-                    each.put("title", params.get("title"));
-                }
-                resultCode = 200;
-            } else {
-                resultCode = -2;
-            }
-        } catch (Exception e){
-            resultCode = -1;
+
+        Tbboard tbboard = tbboardRepository.findById(id).orElseThrow(() -> new RuntimeException(""));
+        if(params.get("title") != null && !"".equals(params.get("title"))){
+            tbboard.setTitle(params.get("title") + "");
+            resultCode = 200;
         }
+        if(params.get("content") != null && !"".equals(params.get("content"))){
+            tbboard.setContent(params.get("content") + "");
+            resultCode = 200;
+        }
+        if(params.get("writer") != null && !"".equals(params.get("writer"))){
+            tbboard.setWriter(params.get("writer") + "");
+            resultCode = 200;
+        }
+        tbboardRepository.save(tbboard);
+
+        returnVal.put("resultCode", resultCode);
+        //returnVal.put("data", tbboardList);
+        return returnVal;
+    }
+    @GetMapping("/delete")
+    public Map<String, Object> delete(@RequestParam Map<String, Object> params){
+        Map<String, Object> returnVal = new HashMap<>();
+        String id = (String) params.get("id");
+        int resultCode = 200;
+
+        Tbboard tbboard = tbboardRepository.findById(id).orElseThrow(() -> new RuntimeException(""));
+        tbboardRepository.delete(tbboard);
+
         returnVal.put("resultCode", resultCode);
         //returnVal.put("data", tbboardList);
         return returnVal;

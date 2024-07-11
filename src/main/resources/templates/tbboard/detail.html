@@ -8,13 +8,13 @@
 </head>
 <body>
 
-<input type="text" id="tbboard_order" />
+<input type="text" id="tbboard_id" />
 <button onclick="detail_tbboard()">글 불러오기</button>
 
 <script>
     function detail_tbboard(){
         $.ajax({
-            url: "/api/tbboard/detail/" + $("#tbboard_order").val(),
+            url: "/api/tbboard/detail/" + $("#tbboard_id").val(),
             type: "GET",
             contentType : 'application/json; charset=utf-8',
             data: {},

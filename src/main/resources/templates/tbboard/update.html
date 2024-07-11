@@ -10,8 +10,8 @@
 
 
 
-순번
-<input type="text" id="tbboard_order" />
+ID
+<input type="text" id="tbboard_id" />
 <button onclick="detail_tbboard()">글 불러오기</button>
 
 제목
@@ -21,11 +21,12 @@
 작성자
 <input type="text" id="tbboard_writer" />
 <button onclick="update_tbboard()">글 수정</button>
+<button onclick="delete_tbboard()">글 삭제</button>
 
 <script>
     function detail_tbboard(){
         $.ajax({
-            url: "/api/tbboard/detail/" + $("#tbboard_order").val(),
+            url: "/api/tbboard/detail/" + $("#tbboard_id").val(),
             type: "GET",
             contentType : 'application/json; charset=utf-8',
             data: {},
@@ -53,8 +54,30 @@
             type: "GET",
             contentType : 'application/json; charset=utf-8',
             data: {
-                order : $("#tbboard_order").val(),
-                title : $("#tbboard_title").val()
+                id : $("#tbboard_id").val(),
+                title : $("#tbboard_title").val(),
+                content : $("#tbboard_content").val(),
+                writer : $("#tbboard_writer").val()
+            },
+            cache: false,
+            success: (data, status, xhr)=>{
+                //alert("success!!");
+                alert(JSON.stringify(data));
+            },
+            error: (data, status, xhr)=>{
+                alert("error!!");
+                alert(JSON.stringify(data));
+            },
+        });
+    }
+
+    function delete_tbboard(){
+        $.ajax({
+            url: "/api/tbboard/delete",
+            type: "GET",
+            contentType : 'application/json; charset=utf-8',
+            data: {
+                id : $("#tbboard_id").val()
             },
             cache: false,
             success: (data, status, xhr)=>{
