@@ -2,6 +2,7 @@ package com.thc.smspr.controller;
 
 import com.thc.smspr.domain.Tbpost;
 import com.thc.smspr.repository.TbpostRepository;
+import com.thc.smspr.service.TbpostService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,17 +19,20 @@ public class TbpostRestController {
 
     //List<Map<String, Object>> tbpostList = new ArrayList<>();
 
-    private final TbpostRepository tbpostRepository;
+    //private final TbpostRepository tbpostRepository;
+    private final TbpostService tbpostService;
     public TbpostRestController(
-            TbpostRepository tbpostRepository
+            //TbpostRepository tbpostRepository,
+            TbpostService tbpostService
     ) {
-        this.tbpostRepository = tbpostRepository;
+        //this.tbpostRepository = tbpostRepository;
+        this.tbpostService = tbpostService;
     }
 
     //2024-07-10
     @GetMapping("/create")
-    public Map<String, Object> create(@RequestParam Map<String, Object> params){
-        Map<String, Object> returnData = new HashMap<String, Object>();
+    public Map<String, Object> create(@RequestParam String title, @RequestParam String content){
+        /*Map<String, Object> returnData = new HashMap<String, Object>();
         int resultCode = 0;
         String resultData = "";
         String title = params.get("title") + "";
@@ -50,11 +54,15 @@ public class TbpostRestController {
         }
 
         returnData.put("resultCode", resultCode);
-        returnData.put("resultData", resultData);
-        return returnData;
+        returnData.put("resultData", resultData);*/
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("title", title);
+        params.put("content", content);
+        return tbpostService.create(params);
     }
     @GetMapping("/update")
     public Map<String, Object> update(@RequestParam Map<String, Object> params){
+        /*
         Map<String, Object> returnData = new HashMap<String, Object>();
         int resultCode = 0;
         String resultData = "";
@@ -76,12 +84,14 @@ public class TbpostRestController {
             resultCode = 200;
         }
         tbpostRepository.save(tbpost);
-
         returnData.put("resultCode", resultCode);
-        return returnData;
+        */
+
+        return tbpostService.update(params);
     }
     @GetMapping("/delete")
     public Map<String, Object> delete(@RequestParam Map<String, Object> params){
+        /*
         Map<String, Object> returnData = new HashMap<String, Object>();
         int resultCode = 200;
         String resultData = "";
@@ -90,29 +100,33 @@ public class TbpostRestController {
         tbpostRepository.delete(tbpost);
 
         returnData.put("resultCode", resultCode);
-        return returnData;
+        */
+        return tbpostService.delete(params.get("id") + "");
     }
     @GetMapping("/list")
-    public Map<String, Object> list(){
+    public Map<String, Object> list(@RequestParam Map<String, Object> params){
+        /*
         Map<String, Object> returnData = new HashMap<String, Object>();
         int resultCode = 200;
         returnData.put("resultCode", resultCode);
         //returnData.put("data", tbpostList);
-        returnData.put("resultData", tbpostRepository.findAll());
-        return returnData;
+        //returnData.put("resultData", tbpostRepository.findAll());
+         */
+        String title = (String) params.get("title");
+        return tbpostService.list(title);
     }
     @GetMapping("/detail")
     public Map<String, Object> detail(@RequestParam String id){
-        Map<String, Object> returnData = new HashMap<String, Object>();
+        /*Map<String, Object> returnData = new HashMap<String, Object>();
         int resultCode = 200;
         returnData.put("resultCode", resultCode);
         //returnData.put("data", tbpostList);
 
-        Tbpost tbpost = tbpostRepository.findById(id).orElseThrow(() -> new RuntimeException(""));
-        returnData.put("resultData", tbpost);
+        //Tbpost tbpost = tbpostRepository.findById(id).orElseThrow(() -> new RuntimeException(""));
+        //returnData.put("resultData", tbpost);*/
 
 
-        return returnData;
+        return tbpostService.detail(id);
     }
 
 

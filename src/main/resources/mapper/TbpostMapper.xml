@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0/EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thc.smspr.mapper.TbpostMapper">
+
+	<!---->
+	<select id="detail" parameterType="hashMap" resultType="com.thc.smspr.dto.CommonDto$PostDetailResDto">
+		SELECT tbpost.id
+			,tbpost.title
+			,tbpost.content
+		,	,tbpost.title as title2
+		FROM tbpost
+		WHERE tbpost.id = #{id}
+	</select>
+	<select id="list" parameterType="hashMap" resultType="com.thc.smspr.dto.CommonDto$PostDetailResDto">
+		SELECT tbpost.id
+		,tbpost.title
+		,tbpost.content
+		,tbpost.title as title2
+		FROM tbpost
+		WHERE tbpost.id is not NULL
+		<if test = "title != null and title !=''">AND tbpost.title LIKE CONCAT('%', #{title}, '%')</if>
+		ORDER BY tbpost.title ASC
+	</select>
+
+
+</mapper>

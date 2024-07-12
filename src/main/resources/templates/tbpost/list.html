@@ -8,6 +8,8 @@
 </head>
 <body>
 <div>목록!!</div>
+제목
+<input type="text" id="tbpost_title" />
 <div id="div_tbpost_list"></div>
 
 
@@ -19,13 +21,18 @@
             url: "/api/tbpost/list",
             type: "GET",
             contentType : 'application/json; charset=utf-8',
-            data: {},
+            data: {
+                title : $("#tbpost_title").val()
+            },
             cache: false,
             success: (data, status, xhr)=>{
                 alert(JSON.stringify(data));
 
-                let alist = data.resultData;
+                $("#div_tbpost_list").html("");
+
+                let alist = data.list;
                 for(each of alist){
+                    //alert(JSON.stringify(each));
                     $("#div_tbpost_list").append(
                         "<div><a href='/tbpost/detail/"+each.id+"'>"+each.id + "//"+each.title + "//"+each.content + "//"+"</a></div>"
                     );
