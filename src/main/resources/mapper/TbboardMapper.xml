@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0/EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thc.smspr.mapper.TbboardMapper">
+
+	<!---->
+	<select id="detail" parameterType="hashMap" resultType="com.thc.smspr.dto.CommonDto$TbboardDetailResDto">
+		SELECT tbboard.id
+			,tbboard.title
+			,tbboard.content
+		FROM tbboard
+		WHERE tbboard.id = #{id}
+	</select>
+	<select id="list" parameterType="hashMap" resultType="hashMap">
+		SELECT tbboard.id
+		,tbboard.title
+		,tbboard.content
+		FROM tbboard
+		WHERE tbboard.id is not NULL
+		<if test = "title != null and title !=''">AND tbboard.title LIKE CONCAT('%', #{title}, '%')</if>
+		ORDER BY tbboard.title ASC
+	</select>
+
+
+</mapper>

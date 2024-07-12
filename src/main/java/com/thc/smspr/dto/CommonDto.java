@@ -22,5 +22,17 @@ public class CommonDto {
 		String content;
 		String title2;
 	}
+	@Builder
+	@Schema
+	@Getter
+	@Setter
+	@AllArgsConstructor
+	@NoArgsConstructor
+	public static class TbboardDetailResDto {
+		String id;
+		String title;
+		String content;
+		String writer;
+	}
 
 }

@@ -23,7 +23,7 @@
             cache: false,
             success: (data, status, xhr)=>{
                 alert(JSON.stringify(data));
-                let alist = data.data;
+                let alist = data.resultData;
                 for(each of alist){
                     $("#div_tbboard_list").append(
                         "<div>"+each.id + "//"+each.title + "//"+each.content + "//"+"</div>"
